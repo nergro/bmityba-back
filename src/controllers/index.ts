@@ -1,5 +1,5 @@
 import * as clientController from './user';
 import * as imageController from './image';
-import * as cabinController from './cabin';
+import * as serviceController from './service';
 
-export { clientController, imageController, cabinController };
+export { clientController, imageController, serviceController };

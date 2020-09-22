@@ -1,10 +1,56 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { User } from '../models/user';
-import { UserJWTPayload } from '../types/user';
+import { UserJWTPayload, UserInterface } from '../types/user';
 import jwt from 'jsonwebtoken';
 import { getEnvironmentVariableString } from '../services/environmentVariable';
 import { validationResult } from 'express-validator';
+
+export const register = async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body as UserInterface;
+    try {
+        let user = await User.findOne({ email });
+
+        if (user) {
+            return res
+                .status(409)
+                .json({ errors: [{ msg: 'User already exists' }] });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        user = new User({
+            email,
+            password: hashedPassword
+        });
+
+        await user.save();
+
+        const payload: UserJWTPayload = {
+            id: user.id
+        };
+
+        jwt.sign(
+            payload,
+            getEnvironmentVariableString('JWT_SECRET'),
+            { expiresIn: getEnvironmentVariableString('JWT_EXPIRETIME') },
+            (err, token) => {
+                if (err) throw err;
+                res.json({
+                    token
+                });
+            }
+        );
+    } catch (error) {
+        res.status(400).send({ error: 'Bad request' });
+    }
+};
 
 export const login = async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -28,8 +74,7 @@ export const login = async (req: Request, res: Response) => {
                 .json({ errors: [{ msg: 'Invalid Credentials' }] });
         }
         const payload: UserJWTPayload = {
-            id: user.id,
-            userType: user.userType
+            id: user.id
         };
 
         jwt.sign(
@@ -40,8 +85,6 @@ export const login = async (req: Request, res: Response) => {
                 if (err) throw err;
                 res.json({
                     id: user.id,
-                    name: user.name,
-                    userType: user.userType,
                     token
                 });
             }

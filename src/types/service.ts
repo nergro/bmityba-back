@@ -1,27 +1,21 @@
-interface Benefit {
-    nameLT: string;
-    nameEN: string;
-    descriptionLT: string;
-    descriptionEN: string;
-}
+import { Document } from 'mongoose';
+import { ImageType } from './image';
 
-export interface Service {
+export interface Service extends Document {
     id: string;
     nameLT: string;
     nameEN: string;
     descriptionLT: string;
     descriptionEN: string;
-    benefitsTitle: string;
-    benefitsDescription: string;
     benefits: {
         titleLT: string;
         titleEN: string;
         descriptionLT: string;
         descriptionEN: string;
-        benefits: Benefit[];
+        benefits: string[];
     };
     price: number;
     priceDescriptionLT: string;
     priceDescriptionEN: string;
-    image: string;
+    image: ImageType;
 }
