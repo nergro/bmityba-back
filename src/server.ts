@@ -35,6 +35,7 @@ auth(passport);
 
 app.use('/api/user', router.user);
 app.use('/api/service', router.service);
+app.use('/api/benefit', router.benefit);
 
 app.all('*', (req, res) => {
     res.status(404).json({ error: "Endpoint doesn't exist" });
