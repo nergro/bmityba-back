@@ -5,6 +5,7 @@ import { UserJWTPayload, UserInterface } from '../types/user';
 import jwt from 'jsonwebtoken';
 import { getEnvironmentVariableString } from '../services/environmentVariable';
 import { validationResult } from 'express-validator';
+import mongoose from 'mongoose';
 
 export const register = async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -91,6 +92,74 @@ export const login = async (req: Request, res: Response) => {
         );
     } catch (err) {
         console.error(err.message);
+        res.status(400).send({ error: 'Bad request' });
+    }
+};
+
+export const getOne = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    try {
+        const user = await User.findById(id);
+        if (user) {
+            res.status(200).json({
+                id: user.id,
+                email: user.email
+            });
+        } else {
+            res.status(404).send('User not found');
+        }
+    } catch (error) {
+        res.status(400).send({ error: 'Bad request' });
+    }
+};
+
+export const getByToken = async (req: Request, res: Response) => {
+    console.log('HERE');
+    try {
+        if (req.user === undefined) {
+            return res.status(401).send('Unauthorized');
+        }
+        const { id } = req.user as UserInterface;
+        res.status(200).send({ id });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ error: 'Bad request' });
+    }
+};
+
+export const edit = async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (req.user === undefined) {
+        return res.status(401).send('Unauthorized');
+    }
+    const { id } = req.user as UserInterface;
+
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const { password } = req.body;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    try {
+        const update = { password: hashedPassword };
+        await User.findOneAndUpdate(
+            { _id: mongoose.Types.ObjectId(id) },
+            update
+        );
+        res.status(200).send({ msg: 'User updated' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(400).send({ error: 'Bad request' });
+    }
+};
+
+export const deleteOne = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+        const user = await User.findByIdAndDelete(id);
+        res.status(200).json(user);
+    } catch (error) {
         res.status(400).send({ error: 'Bad request' });
     }
 };
