@@ -115,7 +115,6 @@ export const getOne = async (req: Request, res: Response) => {
 };
 
 export const getByToken = async (req: Request, res: Response) => {
-    console.log('HERE');
     try {
         if (req.user === undefined) {
             return res.status(401).send('Unauthorized');

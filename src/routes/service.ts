@@ -8,30 +8,51 @@ export const router: Router = express.Router();
 
 router.post(
     '/',
+    check('image', 'Image is required').exists(),
     check('nameLT', 'LT Name is required').exists(),
     check('nameEN', 'EN Name is required').exists(),
     check('descriptionLT', 'LT Description is required').exists(),
     check('descriptionEN', 'EN Description is required').exists(),
-    check('benefits', 'Benefits is required').exists(),
     check('price', 'Price is required').exists(),
-    check('priceDescriptionLT', 'PriceDescriptionLT is required').exists(),
-    check('priceDescriptionEN', 'PriceDescriptionEN is required').exists(),
-    check('image', 'Image is required').exists(),
+    check('priceDescriptionLT', 'LT Price description is required').exists(),
+    check('priceDescriptionEN', 'EN Price description is required').exists(),
+
+    check('benefitsTitleLT', 'LT benefits title is required').exists(),
+    check('benefitsTitleEN', 'EN benefits title is required').exists(),
+    check(
+        'benefitsDescriptionLT',
+        'LT benefits description is required'
+    ).exists(),
+    check(
+        'benefitsDescriptionEN',
+        'EN benefits description is required'
+    ).exists(),
+
     isAuth,
     controller.create
 );
 
 router.put(
     '/:id',
+    check('image', 'Image is required').exists(),
     check('nameLT', 'LT Name is required').exists(),
     check('nameEN', 'EN Name is required').exists(),
     check('descriptionLT', 'LT Description is required').exists(),
     check('descriptionEN', 'EN Description is required').exists(),
-    check('benefits', 'Benefits is required').exists(),
     check('price', 'Price is required').exists(),
-    check('priceDescriptionLT', 'PriceDescriptionLT is required').exists(),
-    check('priceDescriptionEN', 'PriceDescriptionEN is required').exists(),
-    check('image', 'Image is required').exists(),
+    check('priceDescriptionLT', 'LT Price description is required').exists(),
+    check('priceDescriptionEN', 'EN Price description is required').exists(),
+
+    check('benefitsTitleLT', 'LT benefits title is required').exists(),
+    check('benefitsTitleEN', 'EN benefits title is required').exists(),
+    check(
+        'benefitsDescriptionLT',
+        'LT benefits description is required'
+    ).exists(),
+    check(
+        'benefitsDescriptionEN',
+        'EN benefits description is required'
+    ).exists(),
     isAuth,
     controller.edit
 );

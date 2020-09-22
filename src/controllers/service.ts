@@ -7,17 +7,7 @@ import { QueryParams } from '../types/queryParams';
 import cloudinary from 'cloudinary';
 
 export const create = async (req: Request, res: Response) => {
-    const {
-        nameLT,
-        nameEN,
-        descriptionLT,
-        descriptionEN,
-        benefits,
-        price,
-        priceDescriptionLT,
-        priceDescriptionEN,
-        image
-    } = req.body as ServiceInfo;
+    const body = req.body as ServiceInfo;
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -25,20 +15,16 @@ export const create = async (req: Request, res: Response) => {
         }
 
         const imageModel = await new Image({
-            imageUrl: image.imageUrl,
-            imageId: image.imageId
+            imageUrl: body.image.imageUrl,
+            imageId: body.image.imageId
         }).save();
 
         const service = new Service({
-            nameLT,
-            nameEN,
-            descriptionLT,
-            descriptionEN,
-            price,
-            priceDescriptionLT,
-            priceDescriptionEN,
+            ...body,
             image: imageModel,
-            benefits
+            benefits: {
+                ...body.benefits
+            }
         });
         await service.save();
         res.status(200).json(service);
@@ -49,17 +35,7 @@ export const create = async (req: Request, res: Response) => {
 };
 
 export const edit = async (req: Request, res: Response) => {
-    const {
-        nameLT,
-        nameEN,
-        descriptionLT,
-        descriptionEN,
-        benefits,
-        price,
-        priceDescriptionLT,
-        priceDescriptionEN,
-        image
-    } = req.body as ServiceInfo;
+    const body = req.body as ServiceInfo;
 
     const { id } = req.params;
 
@@ -73,20 +49,16 @@ export const edit = async (req: Request, res: Response) => {
             await Image.findByIdAndDelete(service.image);
 
             const imageModel = await new Image({
-                imageUrl: image.imageUrl,
-                imageId: image.imageId
+                imageUrl: body.image.imageUrl,
+                imageId: body.image.imageId
             }).save();
 
             const update = {
-                nameLT,
-                nameEN,
-                descriptionLT,
-                descriptionEN,
-                price,
-                priceDescriptionLT,
-                priceDescriptionEN,
+                ...body,
                 image: imageModel,
-                benefits
+                benefits: {
+                    ...body.benefits
+                }
             };
 
             await Service.findByIdAndUpdate(id, update);
@@ -111,6 +83,7 @@ export const getList = async (req: Request, res: Response) => {
         const totalServices = await Service.find();
 
         const services = await Service.find()
+            .populate('image')
             .skip(skip)
             .limit(parseInt(perPage))
             .sort({ [sort]: order });
@@ -123,9 +96,7 @@ export const getList = async (req: Request, res: Response) => {
 
 export const getAll = async (req: Request, res: Response) => {
     try {
-        const services = await Service.find()
-            .populate('image')
-            .populate('benefits');
+        const services = await Service.find().populate('image');
 
         res.status(200).json(services);
     } catch (error) {
@@ -143,7 +114,10 @@ export const getOne = async (req: Request, res: Response) => {
 
         if (service) {
             res.status(200).json({
-                id: service.id,
+                image: {
+                    imageUrl: img ? img.imageUrl : '',
+                    imageId: img ? img.imageId : ''
+                },
                 nameLT: service.nameLT,
                 nameEN: service.nameEN,
                 descriptionLT: service.descriptionLT,
@@ -151,14 +125,16 @@ export const getOne = async (req: Request, res: Response) => {
                 price: service.price,
                 priceDescriptionLT: service.priceDescriptionLT,
                 priceDescriptionEN: service.priceDescriptionEN,
-                image: {
-                    imageUrl: img ? img.imageUrl : '',
-                    imageId: img ? img.imageId : ''
-                },
-                benefits: service.benefits
+                benefitsTitleLT: service.benefitsTitleLT,
+                benefitsTitleEN: service.benefitsTitleEN,
+                benefitsDescriptionLT: service.benefitsDescriptionLT,
+                benefitsDescriptionEN: service.benefitsDescriptionEN,
+                benefits: {
+                    ...service.benefits
+                }
             });
         } else {
-            res.status(404).json({ msg: 'Cabin not found' });
+            res.status(404).json({ msg: 'Service not found' });
         }
     } catch (error) {
         console.log(error);
