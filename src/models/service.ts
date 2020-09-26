@@ -16,6 +16,20 @@ const ServiceSchema = new Schema({
         type: String,
         required: true
     },
+    labelLT: {
+        type: String
+    },
+    labelEN: {
+        type: String
+    },
+    shortDescriptionLT: {
+        type: String,
+        required: true
+    },
+    shortDescriptionEN: {
+        type: String,
+        required: true
+    },
     descriptionLT: {
         type: String,
         required: true
@@ -53,56 +67,12 @@ const ServiceSchema = new Schema({
         type: String,
         required: true
     },
-    benefits: {
-        benefit1NameLT: {
-            type: String
-        },
-        benefit1NameEN: {
-            type: String
-        },
-        benefit1DescriptionLT: {
-            type: String
-        },
-        benefit1DescriptionEN: {
-            type: String
-        },
-        benefit2NameLT: {
-            type: String
-        },
-        benefit2NameEN: {
-            type: String
-        },
-        benefit2DescriptionLT: {
-            type: String
-        },
-        benefit2DescriptionEN: {
-            type: String
-        },
-        benefit3NameLT: {
-            type: String
-        },
-        benefit3NameEN: {
-            type: String
-        },
-        benefit3DescriptionLT: {
-            type: String
-        },
-        benefit3DescriptionEN: {
-            type: String
-        },
-        benefit4NameLT: {
-            type: String
-        },
-        benefit4NameEN: {
-            type: String
-        },
-        benefit4DescriptionLT: {
-            type: String
-        },
-        benefit4DescriptionEN: {
-            type: String
+    benefits: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Benefit'
         }
-    }
+    ]
 });
 
 ServiceSchema.set('toJSON', {

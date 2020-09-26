@@ -22,9 +22,7 @@ export const create = async (req: Request, res: Response) => {
         const service = new Service({
             ...body,
             image: imageModel,
-            benefits: {
-                ...body.benefits
-            }
+            benefits: body.benefits
         });
         await service.save();
         res.status(200).json(service);
@@ -56,9 +54,7 @@ export const edit = async (req: Request, res: Response) => {
             const update = {
                 ...body,
                 image: imageModel,
-                benefits: {
-                    ...body.benefits
-                }
+                benefits: body.benefits
             };
 
             await Service.findByIdAndUpdate(id, update);
@@ -96,7 +92,9 @@ export const getList = async (req: Request, res: Response) => {
 
 export const getAll = async (req: Request, res: Response) => {
     try {
-        const services = await Service.find().populate('image');
+        const services = await Service.find()
+            .populate('image')
+            .populate('benefits');
 
         res.status(200).json(services);
     } catch (error) {
@@ -120,6 +118,10 @@ export const getOne = async (req: Request, res: Response) => {
                 },
                 nameLT: service.nameLT,
                 nameEN: service.nameEN,
+                labelLT: service.labelLT,
+                labelEN: service.labelEN,
+                shortDescriptionLT: service.shortDescriptionLT,
+                shortDescriptionEN: service.shortDescriptionEN,
                 descriptionLT: service.descriptionLT,
                 descriptionEN: service.descriptionEN,
                 price: service.price,
@@ -129,9 +131,7 @@ export const getOne = async (req: Request, res: Response) => {
                 benefitsTitleEN: service.benefitsTitleEN,
                 benefitsDescriptionLT: service.benefitsDescriptionLT,
                 benefitsDescriptionEN: service.benefitsDescriptionEN,
-                benefits: {
-                    ...service.benefits
-                }
+                benefits: service.benefits
             });
         } else {
             res.status(404).json({ msg: 'Service not found' });
