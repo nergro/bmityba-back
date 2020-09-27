@@ -8,9 +8,9 @@ export const sendMail = async (req: Request, res: Response) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const { name, mail, message, subject } = req.body as Mail;
+    const { name, email, message, subject } = req.body as Mail;
     try {
-        sendRequestEmail(name, mail, message, subject);
+        sendRequestEmail(name, email, message, subject);
         res.status(200).json('Message sent');
     } catch (error) {
         res.status(400).send({ error: 'Bad request' });

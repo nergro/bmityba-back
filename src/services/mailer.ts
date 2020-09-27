@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 
 import { getEnvironmentVariableString } from './environmentVariable';
 
+const service: string = 'gmail';
 const mail_user: string = getEnvironmentVariableString('MAIL_USER');
 const mail_password: string = getEnvironmentVariableString('MAIL_PASSWORD');
 const mail_host: string = getEnvironmentVariableString('MAIL_HOST');
@@ -13,13 +14,12 @@ const mail_reply_to_name: string = getEnvironmentVariableString(
 );
 
 const transporter: nodemailer.Transporter = nodemailer.createTransport({
+    service,
     auth: {
         pass: mail_password,
         user: mail_user
     },
-    host: mail_host,
-    pool: true,
-    port: +mail_port
+    pool: true
 });
 
 interface MailOptions {
@@ -58,7 +58,7 @@ export const sendRequestEmail = async (
         <p><strong>Žinutė: </strong> ${message}</p>
         `,
         'Užklausa',
-        'bmityba@gmail.com'
+        'brigitameiglaite@gmail.com'
     );
 
     await transporter.sendMail(mailOptions);
