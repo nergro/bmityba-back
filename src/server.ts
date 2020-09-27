@@ -38,6 +38,7 @@ app.use('/api/service', router.service);
 app.use('/api/benefit', router.benefit);
 app.use('/api/question', router.question);
 app.use('/api/contacts', router.contacts);
+app.use('/api/mail', router.mail);
 
 app.all('*', (req, res) => {
     res.status(404).json({ error: "Endpoint doesn't exist" });

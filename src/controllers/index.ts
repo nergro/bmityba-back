@@ -4,6 +4,7 @@ import * as serviceController from './service';
 import * as benefitController from './benefit';
 import * as questionController from './question';
 import * as contactsController from './contacts';
+import * as mailController from './mail';
 
 export {
     clientController,
@@ -11,5 +12,6 @@ export {
     serviceController,
     benefitController,
     questionController,
-    contactsController
+    contactsController,
+    mailController
 };
