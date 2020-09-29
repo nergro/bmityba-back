@@ -5,6 +5,7 @@ import * as benefitController from './benefit';
 import * as questionController from './question';
 import * as contactsController from './contacts';
 import * as mailController from './mail';
+import * as postController from './post';
 
 export {
     clientController,
@@ -13,5 +14,6 @@ export {
     benefitController,
     questionController,
     contactsController,
-    mailController
+    mailController,
+    postController
 };
