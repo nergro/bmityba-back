@@ -6,6 +6,7 @@ import * as questionController from './question';
 import * as contactsController from './contacts';
 import * as mailController from './mail';
 import * as postController from './post';
+import * as postCategoryController from './postCategory';
 
 export {
     clientController,
@@ -15,5 +16,6 @@ export {
     questionController,
     contactsController,
     mailController,
-    postController
+    postController,
+    postCategoryController
 };

@@ -40,6 +40,7 @@ app.use('/api/question', router.question);
 app.use('/api/contacts', router.contacts);
 app.use('/api/mail', router.mail);
 app.use('/api/post', router.post);
+app.use('/api/post-category', router.postCategory);
 
 app.all('*', (req, res) => {
     res.status(404).json({ error: "Endpoint doesn't exist" });
