@@ -8,7 +8,11 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'PostCategory'
     },
-    title: {
+    titleLT: {
+        type: String,
+        required: true
+    },
+    titleEN: {
         type: String,
         required: true
     },
@@ -16,7 +20,11 @@ const PostSchema = new Schema({
         type: Date,
         required: true
     },
-    content: {
+    contentLT: {
+        type: String,
+        required: true
+    },
+    contentEN: {
         type: String,
         required: true
     },

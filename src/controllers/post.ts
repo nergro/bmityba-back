@@ -11,7 +11,15 @@ export const create = async (req: Request, res: Response) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const { title, category, date, content, image } = req.body as PostInfo;
+    const {
+        titleLT,
+        titleEN,
+        category,
+        date,
+        contentLT,
+        contentEN,
+        image
+    } = req.body as PostInfo;
 
     const imageModel = await new Image({
         imageUrl: image.imageUrl,
@@ -20,10 +28,12 @@ export const create = async (req: Request, res: Response) => {
 
     try {
         const data = new Post({
-            title,
+            titleLT,
+            titleEN,
             category,
             date,
-            content,
+            contentLT,
+            contentEN,
             image: imageModel
         });
         await data.save();
@@ -38,7 +48,15 @@ export const edit = async (req: Request, res: Response) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const { title, category, date, content, image } = req.body as PostInfo;
+    const {
+        titleLT,
+        titleEN,
+        category,
+        date,
+        contentLT,
+        contentEN,
+        image
+    } = req.body as PostInfo;
     const { id } = req.params;
     try {
         const data = await Post.findById(id);
@@ -51,10 +69,12 @@ export const edit = async (req: Request, res: Response) => {
             }).save();
 
             const update = {
-                title,
+                titleLT,
+                titleEN,
                 category,
                 date,
-                content,
+                contentLT,
+                contentEN,
                 image: imageModel
             };
             await Post.findByIdAndUpdate(id, update);
@@ -77,9 +97,11 @@ export const getOne = async (req: Request, res: Response) => {
         if (data) {
             res.status(200).json({
                 category: data.category,
-                title: data.title,
+                titleLT: data.titleLT,
+                titleEN: data.titleEN,
                 date: data.date,
-                content: data.content,
+                contentLT: data.contentLT,
+                contentEN: data.contentEN,
                 image: {
                     imageUrl: img ? img.imageUrl : '',
                     imageId: img ? img.imageId : ''
@@ -106,7 +128,6 @@ export const getList = async (req: Request, res: Response) => {
 
         const data = await Post.find()
             .populate('image')
-            .populate('category')
             .skip(skip)
             .limit(parseInt(perPage))
             .sort({ [sort]: order });

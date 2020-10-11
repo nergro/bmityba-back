@@ -5,7 +5,9 @@ export interface Post extends Document {
     id: string;
     category: string;
     image: ImageType;
-    title: string;
+    titleLT: string;
+    titleEN: string;
     date: string;
-    content: string;
+    contentLT: string;
+    contentEN: string;
 }

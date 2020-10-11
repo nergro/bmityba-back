@@ -9,9 +9,11 @@ export const router: Router = express.Router();
 router.post(
     '/',
     check('category', 'category is required').exists(),
-    check('title', 'title is required').exists(),
+    check('titleLT', 'titleLT is required').exists(),
+    check('titleEN', 'titleEN is required').exists(),
     check('date', 'date is required').exists(),
-    check('content', 'content is required').exists(),
+    check('contentLT', 'contentLT is required').exists(),
+    check('contentEN', 'contentEN is required').exists(),
     check('image', 'Image is required').exists(),
     isAuth,
     controller.create
@@ -20,9 +22,11 @@ router.post(
 router.put(
     '/:id',
     check('category', 'category is required').exists(),
-    check('title', 'title is required').exists(),
+    check('titleLT', 'titleLT is required').exists(),
+    check('titleEN', 'titleEN is required').exists(),
     check('date', 'date is required').exists(),
-    check('content', 'content is required').exists(),
+    check('contentLT', 'contentLT is required').exists(),
+    check('contentEN', 'contentEN is required').exists(),
     check('image', 'Image is required').exists(),
     isAuth,
     controller.edit
