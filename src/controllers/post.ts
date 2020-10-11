@@ -14,6 +14,8 @@ export const create = async (req: Request, res: Response) => {
     const {
         titleLT,
         titleEN,
+        shortDescriptionLT,
+        shortDescriptionEN,
         category,
         date,
         contentLT,
@@ -30,6 +32,8 @@ export const create = async (req: Request, res: Response) => {
         const data = new Post({
             titleLT,
             titleEN,
+            shortDescriptionLT,
+            shortDescriptionEN,
             category,
             date,
             contentLT,
@@ -51,6 +55,8 @@ export const edit = async (req: Request, res: Response) => {
     const {
         titleLT,
         titleEN,
+        shortDescriptionLT,
+        shortDescriptionEN,
         category,
         date,
         contentLT,
@@ -71,6 +77,8 @@ export const edit = async (req: Request, res: Response) => {
             const update = {
                 titleLT,
                 titleEN,
+                shortDescriptionLT,
+                shortDescriptionEN,
                 category,
                 date,
                 contentLT,
@@ -99,6 +107,8 @@ export const getOne = async (req: Request, res: Response) => {
                 category: data.category,
                 titleLT: data.titleLT,
                 titleEN: data.titleEN,
+                shortDescriptionLT: data.shortDescriptionLT,
+                shortDescriptionEN: data.shortDescriptionEN,
                 date: data.date,
                 contentLT: data.contentLT,
                 contentEN: data.contentEN,

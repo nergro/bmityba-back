@@ -7,6 +7,8 @@ export interface Post extends Document {
     image: ImageType;
     titleLT: string;
     titleEN: string;
+    shortDescriptionLT: string;
+    shortDescriptionEN: string;
     date: string;
     contentLT: string;
     contentEN: string;

@@ -16,6 +16,14 @@ const PostSchema = new Schema({
         type: String,
         required: true
     },
+    shortDescriptionLT: {
+        type: String,
+        required: true
+    },
+    shortDescriptionEN: {
+        type: String,
+        required: true
+    },
     date: {
         type: Date,
         required: true
