@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
     category: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'PostCategory'
     },
     title: {
         type: String,
@@ -19,6 +19,10 @@ const PostSchema = new Schema({
     content: {
         type: String,
         required: true
+    },
+    image: {
+        type: Schema.Types.ObjectId,
+        ref: 'Image'
     }
 });
 

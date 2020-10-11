@@ -12,6 +12,7 @@ router.post(
     check('title', 'title is required').exists(),
     check('date', 'date is required').exists(),
     check('content', 'content is required').exists(),
+    check('image', 'Image is required').exists(),
     isAuth,
     controller.create
 );
@@ -22,6 +23,7 @@ router.put(
     check('title', 'title is required').exists(),
     check('date', 'date is required').exists(),
     check('content', 'content is required').exists(),
+    check('image', 'Image is required').exists(),
     isAuth,
     controller.edit
 );

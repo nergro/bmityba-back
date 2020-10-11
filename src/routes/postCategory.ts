@@ -22,7 +22,7 @@ router.put(
     controller.edit
 );
 
-router.get('/all', isAuth, controller.getAll);
+router.get('/all', controller.getAll);
 
 router.get('/', isAuth, controller.getList);
 

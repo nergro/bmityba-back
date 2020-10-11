@@ -4,7 +4,7 @@ import { Image } from '../models/image';
 import { Service as ServiceInfo } from '../types/service';
 import { validationResult } from 'express-validator';
 import { QueryParams } from '../types/queryParams';
-import cloudinary from 'cloudinary';
+import { removeImage } from '../services/removeImage';
 
 export const create = async (req: Request, res: Response) => {
     const body = req.body as ServiceInfo;
@@ -184,8 +184,4 @@ export const deleteMany = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400).send({ error: 'Bad request' });
     }
-};
-
-const removeImage = (removableImageId: string) => {
-    cloudinary.v2.uploader.destroy(removableImageId);
 };
